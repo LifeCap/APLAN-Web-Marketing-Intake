@@ -58,7 +58,7 @@ class NotificationHelper @Inject constructor(
         )
 
         val notification = NotificationCompat.Builder(context, CHANNEL_NEW_DEALS)
-            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle("New Shoe Deal Found!")
             .setContentText("${deal.title} — \$${String.format("%.2f", deal.price)} on ${deal.source.displayName}")
             .setStyle(
@@ -84,7 +84,7 @@ class NotificationHelper @Inject constructor(
         )
 
         val notification = NotificationCompat.Builder(context, CHANNEL_PRICE_DROP)
-            .setSmallIcon(android.R.drawable.ic_dialog_alert)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle("Price Drop Alert! Under \$${String.format("%.0f", threshold)}")
             .setContentText("${deal.title} — \$${String.format("%.2f", deal.price)} on ${deal.source.displayName}")
             .setStyle(
@@ -124,7 +124,7 @@ class NotificationHelper @Inject constructor(
         }
 
         val notification = NotificationCompat.Builder(context, CHANNEL_NEW_DEALS)
-            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle("ShoeAlert Search Complete")
             .setContentText(body)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)

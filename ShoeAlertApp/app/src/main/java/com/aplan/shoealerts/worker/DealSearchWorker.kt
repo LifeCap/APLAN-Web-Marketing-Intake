@@ -41,9 +41,7 @@ class DealSearchWorker @AssistedInject constructor(
 
                     // Push notification for new deal
                     if (preference.pushNotifications && preference.newDealAlerts) {
-                        if (underThreshold || preference.newDealAlerts) {
-                            notificationHelper.notifyNewDeal(deal)
-                        }
+                        notificationHelper.notifyNewDeal(deal)
                     }
 
                     // Price drop notification (always send if under threshold)

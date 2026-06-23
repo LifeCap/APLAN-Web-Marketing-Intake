@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shoe icon: a simple rubber-soled shoe silhouette -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Shoe body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M20,65 C20,65 18,72 22,74 L82,74 C86,74 88,70 88,70 L88,62 C88,62 80,48 68,44 L52,40 C52,40 44,38 40,42 L32,52 Z" />
+
+    <!-- Shoe toe box (enclosed) -->
+    <path
+        android:fillColor="#E3F2FD"
+        android:pathData="M20,65 L32,52 C36,46 44,42 52,42 L52,58 C48,58 36,60 28,66 Z" />
+
+    <!-- Rubber sole -->
+    <path
+        android:fillColor="#BBDEFB"
+        android:pathData="M18,70 C18,73 20,76 24,76 L84,76 C88,76 90,73 90,70 L90,68 C90,68 86,72 82,72 L22,72 C18,72 18,70 18,70 Z" />
+
+    <!-- Lace details -->
+    <path
+        android:fillColor="#1565C0"
+        android:pathData="M48,44 L50,56 M56,43 L58,55 M64,45 L65,57"
+        android:strokeColor="#1565C0"
+        android:strokeWidth="2"
+        android:strokeLineCap="round" />
+
+    <!-- Alert bell overlay (top right) -->
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M78,18 C78,18 73,20 73,26 L73,30 L83,30 L83,26 C83,20 78,18 78,18 Z" />
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M71,30 L85,30 L85,33 L71,33 Z" />
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M76,33 C76,35 80,35 80,33" />
+</vector>

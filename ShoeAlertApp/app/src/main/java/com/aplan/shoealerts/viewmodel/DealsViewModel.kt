@@ -8,6 +8,7 @@ import com.aplan.shoealerts.data.repository.DealRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.distinctUntilChanged
 import javax.inject.Inject
 
 data class DealsUiState(
@@ -37,20 +38,20 @@ class DealsViewModel @Inject constructor(
 
     private fun observeDeals() {
         viewModelScope.launch {
-            repository.getAllDeals()
-                .combine(_priceThreshold) { deals, threshold -> Pair(deals, threshold) }
-                .combine(_uiState.map { it.filter }) { (deals, threshold), filter ->
-                    Triple(deals, threshold, filter)
+            combine(
+                repository.getAllDeals(),
+                _priceThreshold,
+                _uiState.map { it.filter }.distinctUntilChanged()
+            ) { deals, threshold, filter ->
+                when (filter) {
+                    DealsFilter.ALL -> deals
+                    DealsFilter.UNDER_THRESHOLD -> deals.filter { it.price <= threshold }
+                    DealsFilter.FAVORITES -> deals.filter { it.isFavorite }
+                    DealsFilter.BY_SOURCE -> deals.sortedBy { it.source.name }
                 }
-                .collect { (deals, threshold, filter) ->
-                    val filtered = when (filter) {
-                        DealsFilter.ALL -> deals
-                        DealsFilter.UNDER_THRESHOLD -> deals.filter { it.price <= threshold }
-                        DealsFilter.FAVORITES -> deals.filter { it.isFavorite }
-                        DealsFilter.BY_SOURCE -> deals.sortedBy { it.source.name }
-                    }
-                    _uiState.update { it.copy(deals = filtered) }
-                }
+            }.collect { filtered ->
+                _uiState.update { it.copy(deals = filtered) }
+            }
         }
     }
 
