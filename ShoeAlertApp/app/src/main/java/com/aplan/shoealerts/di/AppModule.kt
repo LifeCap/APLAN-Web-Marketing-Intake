@@ -3,6 +3,7 @@ package com.aplan.shoealerts.di
 import android.content.Context
 import androidx.room.Room
 import com.aplan.shoealerts.data.database.*
+import com.aplan.shoealerts.network.ScraperRateLimiter
 import com.aplan.shoealerts.network.scrapers.*
 import dagger.Module
 import dagger.Provides
@@ -26,14 +27,22 @@ object AppModule {
     @Provides fun provideDealDao(db: AppDatabase): DealDao = db.dealDao()
     @Provides fun providePreferenceDao(db: AppDatabase): SearchPreferenceDao = db.searchPreferenceDao()
     @Provides fun provideAlertLogDao(db: AppDatabase): AlertLogDao = db.alertLogDao()
+    @Provides fun providePriceHistoryDao(db: AppDatabase): PriceHistoryDao = db.priceHistoryDao()
 
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient = BaseScraper.buildClient()
 
-    @Provides @Singleton fun provideAmazonScraper(c: OkHttpClient) = AmazonScraper(c)
-    @Provides @Singleton fun providePoshmarkScraper(c: OkHttpClient) = PoshmarkScraper(c)
-    @Provides @Singleton fun provideSheinScraper(c: OkHttpClient) = SheinScraper(c)
-    @Provides @Singleton fun provideEbayScraper(c: OkHttpClient) = EbayScraper(c)
-    @Provides @Singleton fun provideWalmartScraper(c: OkHttpClient) = WalmartScraper(c)
+    @Provides @Singleton fun provideRateLimiter(): ScraperRateLimiter = ScraperRateLimiter()
+
+    @Provides @Singleton
+    fun provideAmazonScraper(c: OkHttpClient, r: ScraperRateLimiter) = AmazonScraper(c, r)
+    @Provides @Singleton
+    fun providePoshmarkScraper(c: OkHttpClient, r: ScraperRateLimiter) = PoshmarkScraper(c, r)
+    @Provides @Singleton
+    fun provideSheinScraper(c: OkHttpClient, r: ScraperRateLimiter) = SheinScraper(c, r)
+    @Provides @Singleton
+    fun provideEbayScraper(c: OkHttpClient, r: ScraperRateLimiter) = EbayScraper(c, r)
+    @Provides @Singleton
+    fun provideWalmartScraper(c: OkHttpClient, r: ScraperRateLimiter) = WalmartScraper(c, r)
 }

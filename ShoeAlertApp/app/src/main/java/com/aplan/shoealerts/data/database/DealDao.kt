@@ -26,6 +26,9 @@ interface DealDao {
     @Query("SELECT * FROM deals WHERE source = :source ORDER BY price ASC")
     fun getDealsBySource(source: ShoppingSource): Flow<List<Deal>>
 
+    @Query("SELECT * FROM deals WHERE id = :id LIMIT 1")
+    suspend fun findById(id: Long): Deal?
+
     @Query("""
         SELECT * FROM deals
         WHERE productUrl = :url AND searchPreferenceId = :prefId

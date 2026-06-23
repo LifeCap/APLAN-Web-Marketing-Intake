@@ -3,10 +3,11 @@ package com.aplan.shoealerts.network.scrapers
 import com.aplan.shoealerts.data.model.Deal
 import com.aplan.shoealerts.data.model.SearchPreference
 import com.aplan.shoealerts.data.model.ShoppingSource
+import com.aplan.shoealerts.network.ScraperRateLimiter
 import okhttp3.OkHttpClient
 import java.net.URLEncoder
 
-class AmazonScraper(client: OkHttpClient) : BaseScraper(client) {
+class AmazonScraper(client: OkHttpClient, rateLimiter: ScraperRateLimiter) : BaseScraper(client, rateLimiter) {
 
     override suspend fun search(preference: SearchPreference): List<Deal> {
         val query = buildQuery(preference)

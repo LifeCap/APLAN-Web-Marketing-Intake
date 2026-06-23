@@ -29,7 +29,8 @@ fun DealCard(
     deal: Deal,
     onFavoriteToggle: (Deal) -> Unit,
     onDelete: (Long) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null
 ) {
     val uriHandler = LocalUriHandler.current
     val dateFormat = remember { SimpleDateFormat("MMM d, h:mm a", Locale.US) }
@@ -39,7 +40,8 @@ fun DealCard(
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         onClick = {
-            runCatching { uriHandler.openUri(deal.productUrl) }
+            if (onClick != null) onClick()
+            else runCatching { uriHandler.openUri(deal.productUrl) }
         }
     ) {
         Row(
