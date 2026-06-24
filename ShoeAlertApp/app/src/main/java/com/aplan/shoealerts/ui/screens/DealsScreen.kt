@@ -133,6 +133,17 @@ fun DealsScreen(
                 }
             }
 
+            if (uiState.lastSearchTimestamp > 0L) {
+                Text(
+                    text = "Last checked: ${formatLastChecked(uiState.lastSearchTimestamp)}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 4.dp)
+                )
+            }
+
             PullToRefreshBox(
                 isRefreshing = uiState.isRefreshing,
                 onRefresh = { viewModel.refresh() },
@@ -158,6 +169,17 @@ fun DealsScreen(
                 }
             }
         }
+    }
+}
+
+private fun formatLastChecked(timestamp: Long): String {
+    val diffMs = System.currentTimeMillis() - timestamp
+    val diffMin = diffMs / 60_000
+    return when {
+        diffMin < 1   -> "just now"
+        diffMin < 60  -> "$diffMin min ago"
+        diffMin < 1440 -> "${diffMin / 60}h ago"
+        else          -> "${diffMin / 1440}d ago"
     }
 }
 

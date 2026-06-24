@@ -33,6 +33,8 @@ class DealRepository @Inject constructor(
 
     suspend fun getDealById(id: Long): Deal? = dealDao.findById(id)
 
+    suspend fun getCheapestDeals(limit: Int): List<Deal> = dealDao.getCheapestDeals(limit)
+
     suspend fun toggleFavorite(deal: Deal) {
         dealDao.setFavorite(deal.id, !deal.isFavorite)
     }

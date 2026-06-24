@@ -20,6 +20,21 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            val ksPath = System.getenv("KEYSTORE_PATH")
+            val ksPassword = System.getenv("KEYSTORE_PASSWORD")
+            val kAlias = System.getenv("KEY_ALIAS")
+            val kPassword = System.getenv("KEY_PASSWORD")
+            if (ksPath != null && ksPassword != null && kAlias != null && kPassword != null) {
+                storeFile = file(ksPath)
+                storePassword = ksPassword
+                keyAlias = kAlias
+                keyPassword = kPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -28,6 +43,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 
@@ -100,6 +116,10 @@ dependencies {
 
     // Image loading
     implementation(libs.coil.compose)
+
+    // Home screen widget
+    implementation(libs.androidx.glance.appwidget)
+    implementation(libs.androidx.glance.material3)
 
     // Testing
     testImplementation(libs.junit)

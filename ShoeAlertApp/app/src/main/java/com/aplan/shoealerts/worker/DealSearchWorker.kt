@@ -9,6 +9,7 @@ import com.aplan.shoealerts.data.model.SearchPreference
 import com.aplan.shoealerts.data.repository.DealRepository
 import com.aplan.shoealerts.notifications.NotificationHelper
 import com.aplan.shoealerts.notifications.SmsHelper
+import com.aplan.shoealerts.widget.ShoeAlertWidget
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
@@ -81,6 +82,9 @@ class DealSearchWorker @AssistedInject constructor(
             // Clean up old data
             repository.cleanupOldDeals()
             repository.cleanupOldAlerts()
+
+            // Refresh home screen widget with latest deals
+            ShoeAlertWidget().updateAll(applicationContext)
 
             Result.success()
         } catch (e: Exception) {

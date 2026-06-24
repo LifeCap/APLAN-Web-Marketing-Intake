@@ -40,6 +40,13 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- Deep link: shoealert://deal/{dealId} — tapped from notifications -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="shoealert" android:host="deal" />
+            </intent-filter>
         </activity>
 
         <!-- WorkManager initializer -->
@@ -64,6 +71,18 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
+        </receiver>
+
+        <!-- Home screen widget -->
+        <receiver
+            android:name=".widget.ShoeAlertWidgetReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
         </receiver>
 
         <!-- Notification channel setup -->

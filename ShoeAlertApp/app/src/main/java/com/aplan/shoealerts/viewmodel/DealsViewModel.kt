@@ -24,7 +24,8 @@ data class DealsUiState(
     val filter: DealsFilter = DealsFilter.ALL,
     val sortOrder: DealsSortOrder = DealsSortOrder.NEWEST,
     val searchQuery: String = "",
-    val priceThreshold: Double = 15.0
+    val priceThreshold: Double = 15.0,
+    val lastSearchTimestamp: Long = 0L
 )
 
 @HiltViewModel
@@ -37,10 +38,15 @@ class DealsViewModel @Inject constructor(
     val uiState: StateFlow<DealsUiState> = _uiState.asStateFlow()
 
     init {
-        // Load saved threshold from DataStore
+        // Sync price threshold and last-search timestamp from DataStore
         viewModelScope.launch {
             repository.appPreferences.settings.collect { settings ->
-                _uiState.update { it.copy(priceThreshold = settings.defaultPriceThreshold) }
+                _uiState.update {
+                    it.copy(
+                        priceThreshold = settings.defaultPriceThreshold,
+                        lastSearchTimestamp = settings.lastSearchTimestamp
+                    )
+                }
             }
         }
         observeDeals()

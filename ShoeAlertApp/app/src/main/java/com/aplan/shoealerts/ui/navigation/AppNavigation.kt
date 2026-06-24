@@ -14,15 +14,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.aplan.shoealerts.ui.screens.AlertsScreen
-import com.aplan.shoealerts.ui.screens.DealDetailScreen
-import com.aplan.shoealerts.ui.screens.DealsScreen
-import com.aplan.shoealerts.ui.screens.SearchScreen
+import androidx.navigation.navDeepLink
+import com.aplan.shoealerts.notifications.NotificationHelper.Companion.DEEP_LINK_SCHEME
+import com.aplan.shoealerts.ui.screens.*
 
 sealed class Screen(val route: String, val label: String, val icon: ImageVector) {
-    object Deals  : Screen("deals",  "Deals",  Icons.Default.LocalOffer)
-    object Search : Screen("search", "Search", Icons.Default.Search)
-    object Alerts : Screen("alerts", "Alerts", Icons.Default.Notifications)
+    object Deals    : Screen("deals",    "Deals",    Icons.Default.LocalOffer)
+    object Search   : Screen("search",   "Search",   Icons.Default.Search)
+    object Alerts   : Screen("alerts",   "Alerts",   Icons.Default.Notifications)
+    object Settings : Screen("settings", "Settings", Icons.Default.Settings)
 }
 
 private const val ROUTE_DEAL_DETAIL = "deal/{dealId}"
@@ -33,12 +33,7 @@ fun AppNavigation() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    val topLevelScreens = listOf(Screen.Deals, Screen.Search, Screen.Alerts)
-
-    // Hide bottom nav on detail screens
-    val showBottomNav = currentDestination?.route?.let { route ->
-        topLevelScreens.any { it.route == route }
-    } ?: true
+    val topLevelScreens = listOf(Screen.Deals, Screen.Search, Screen.Alerts, Screen.Settings)
 
     NavigationSuiteScaffold(
         navigationSuiteItems = {
@@ -63,25 +58,20 @@ fun AppNavigation() {
             startDestination = Screen.Deals.route
         ) {
             composable(Screen.Deals.route) {
-                DealsScreen(
-                    onDealClick = { dealId ->
-                        navController.navigate("deal/$dealId")
-                    }
-                )
+                DealsScreen(onDealClick = { navController.navigate("deal/$it") })
             }
-            composable(Screen.Search.route) {
-                SearchScreen()
-            }
-            composable(Screen.Alerts.route) {
-                AlertsScreen()
-            }
+            composable(Screen.Search.route) { SearchScreen() }
+            composable(Screen.Alerts.route) { AlertsScreen() }
+            composable(Screen.Settings.route) { SettingsScreen() }
+
             composable(
                 route = ROUTE_DEAL_DETAIL,
-                arguments = listOf(navArgument("dealId") { type = NavType.LongType })
-            ) {
-                DealDetailScreen(
-                    onBack = { navController.popBackStack() }
+                arguments = listOf(navArgument("dealId") { type = NavType.LongType }),
+                deepLinks = listOf(
+                    navDeepLink { uriPattern = "$DEEP_LINK_SCHEME://deal/{dealId}" }
                 )
+            ) {
+                DealDetailScreen(onBack = { navController.popBackStack() })
             }
         }
     }

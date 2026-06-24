@@ -9,4 +9,5 @@
     <string name="notification_price_drop_title">Price Drop Alert!</string>
     <string name="sms_deal_found">ShoeAlert: New deal found - %1$s at $%2$s on %3$s. Link: %4$s</string>
     <string name="sms_price_drop">ShoeAlert: Price drop! %1$s now $%2$s (under your $%3$s threshold) on %4$s</string>
+    <string name="widget_description">Shows the 3 cheapest current shoe deals</string>
 </resources>

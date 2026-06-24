@@ -19,6 +19,7 @@ datastore = "1.1.1"
 splashscreen = "1.0.1"
 coroutines = "1.8.1"
 coil = "2.6.0"
+glance = "1.1.0"
 junit = "4.13.2"
 androidxTestExtJunit = "1.2.1"
 espressoCore = "3.6.1"
@@ -58,6 +59,8 @@ jsoup = { group = "org.jsoup", name = "jsoup", version.ref = "jsoup" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+androidx-glance-appwidget = { group = "androidx.glance", name = "glance-appwidget", version.ref = "glance" }
+androidx-glance-material3 = { group = "androidx.glance", name = "glance-material3", version.ref = "glance" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExtJunit" }
